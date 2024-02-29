@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rainbowify</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #222222;
+            color: white;
+        };
+    </style>
+</head>
+<body>
+
+<h1>Rainbowify</h1>
+
+<label for="inputText">Enter Text:</label>
+<input type="text" id="inputText" placeholder="Type your text here">
+
+<button onclick="convertToRainbow()">Convert to Rainbow Text</button>
+
+<pre id="outputText"></pre>
+
+<button onclick="copyToClipboard()">Copy to Clipboard</button>
+
+<script>
+    function convertToRainbow() {
+        var inputText = document.getElementById('inputText').value;
+        var outputTextElement = document.getElementById('outputText');
+
+        if (inputText.trim() === "") {
+            alert("Please enter some text.");
+            return;
+        }
+
+        var rainbowText = "";
+        for (var i = 0; i < inputText.length; i++) {
+            var colorCode = [31, 33, 32, 36, 34, 35][i % 6];
+            rainbowText += `\x1b[2;${colorCode}m${inputText[i]}\x1b[0m`;
+        }
+
+        outputTextElement.textContent = "```ansi\n" + rainbowText + "\n```";
+    }
+
+    function copyToClipboard() {
+        var outputTextElement = document.getElementById('outputText');
+        var range = document.createRange();
+        range.selectNode(outputTextElement);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        document.execCommand('copy');
+        window.getSelection().removeAllRanges();
+    }
+</script>
+
+</body>
+</html>
