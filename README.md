@@ -1,0 +1,1 @@
+rainbow text for discord
